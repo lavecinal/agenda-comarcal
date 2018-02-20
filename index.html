@@ -1,10 +1,226 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>Una Agenda Comarcal</title>
-</head>
-<body>
-	<h1>Agenda Comarcal</h1>
-</body>
-</html>
+---
+layout: default
+---
+
+<header>
+	<nav>
+		<a class="menu-icon" href="{{site.baseurl}}">
+			<img src="{{site.baseurl}}/img/menu-icon.svg" width="50px" alt="">
+		</a>
+		<a class="logo" href="{{site.baseurl}}">
+			<img src="{{site.baseurl}}/img/logo-agenda-comarcal.svg" width="50px" alt="">
+		</a>
+		<a href="" class="search-icon">
+			<img src="{{site.baseurl}}/img/search-icon.svg" class="search-icon" width="30px" alt="">
+		</a>
+	</nav>
+	<div class="main-title">
+		<img src="{{site.baseurl}}/img/flecha-arriba.svg" class="arrow arrow-search" width="30px" alt="">
+		<h1>usa los filtros o busca con palabras claves</h1>
+		<img src="{{site.baseurl}}/img/flecha-abajo.svg" class="arrow arrow-filter" width="20px" alt="">
+	</div>
+</header>
+
+<script>
+	// To keep our code clean and modular, all custom functionality will be contained inside a single object literal called "dropdownFilter".
+
+var dropdownFilter = {
+  
+  // Declare any variables we will need as properties of the object
+  
+  $filters: null,
+  $reset: null,
+  groups: [],
+  outputArray: [],
+  outputString: '',
+  
+  // The "init" method will run on document ready and cache any jQuery objects we will need.
+  
+  init: function(){
+    var self = this; // As a best practice, in each method we will asign "this" to the variable "self" so that it remains scope-agnostic. We will use it to refer to the parent "dropdownFilter" object so that we can share methods and properties between all parts of the object.
+    
+    self.$filters = $('#Filters');
+    self.$reset = $('#Reset');
+    self.$container = $('#Container');
+    
+    self.$filters.find('fieldset').each(function(){
+      self.groups.push({
+        $dropdown: $(this).find('select'),
+        active: ''
+      });
+    });
+    
+    self.bindHandlers();
+  },
+  
+  // The "bindHandlers" method will listen for whenever a select is changed. 
+  
+  bindHandlers: function(){
+    var self = this;
+    
+    // Handle select change
+    
+    self.$filters.on('change', 'select', function(e){
+      e.preventDefault();
+      
+      self.parseFilters();
+    });
+    
+    // Handle reset click
+    
+    self.$reset.on('click', function(e){
+      e.preventDefault();
+      
+      self.$filters.find('select').val('');
+      
+      self.parseFilters();
+    });
+  },
+  
+  // The parseFilters method pulls the value of each active select option
+  
+  parseFilters: function(){
+    var self = this;
+ 
+    // loop through each filter group and grap the value from each one.
+    
+    for(var i = 0, group; group = self.groups[i]; i++){
+      group.active = group.$dropdown.val();
+    }
+    
+    self.concatenate();
+  },
+  
+  // The "concatenate" method will crawl through each group, concatenating filters as desired:
+  
+  concatenate: function(){
+    var self = this;
+    
+    self.outputString = ''; // Reset output string
+    
+    for(var i = 0, group; group = self.groups[i]; i++){
+      self.outputString += group.active;
+    }
+    
+    // If the output string is empty, show all rather than none:
+    
+    !self.outputString.length && (self.outputString = 'all'); 
+    
+    //console.log(self.outputString); 
+    
+    // ^ we can check the console here to take a look at the filter string that is produced
+    
+    // Send the output string to MixItUp via the 'filter' method:
+    
+	  if(self.$container.mixItUp('isLoaded')){
+    	self.$container.mixItUp('filter', self.outputString);
+	  }
+  }
+};
+  
+// On document ready, initialise our code.
+
+$(function(){
+      
+  // Initialize dropdownFilter code
+      
+  dropdownFilter.init();
+      
+  // Instantiate MixItUp
+      
+  $('#Container').mixItUp({
+    controls: {
+      enable: false // we won't be needing these
+    }
+  });    
+});
+</script>
+
+<section>
+	
+<div class="filters">
+	<form class="controls" id="Filters">
+	  <!-- We can add an unlimited number of "filter groups" using the following format: -->
+		   <fieldset>
+		    <h4>lugar</h4>
+		    <select>
+		      <option value="">todxs</option>
+		      <option value=".bolson">el bolson</option>
+		      <option value=".hoyo">el hoyo</option>
+		      <option value=".cholila">cholila</option>
+		      <option value=".puelo">lago puelo</option>
+		      <option value=".golondrinas">las golondrinas</option>
+		      <option value=".paraje">pje. entre rios</option>
+		    </select>
+		  </fieldset>
+		  
+		  <fieldset>
+		    <h4>cuando</h4>
+		    
+		    <select>
+		      <option value="">todos</option>
+		      <option value=".next">esta semana</option>
+		      <option value=".month">este mes</option>
+		      <option value=".weekend">fin de semana</option>
+		    </select>
+		  </fieldset>
+
+		   <fieldset>
+		    <h4>horario</h4>
+		    
+		    <select>
+		      <option value="">a toda hora</option>
+		      <option value=".manana">mañana</option>
+		      <option value=".tarde">tarde</option>
+		      <option value=".noche">noche</option>
+		    </select>
+		  </fieldset>
+		  
+		  <button id="Reset">limpiar filtros</button>
+	</form>
+
+</div>
+
+<div class="results">
+<div id="Container" class="container">
+  <div class="fail-message"><span>No hay proximos eventos con estos filtros</span> <a href="">crear evento</a></div>
+  <div class="mix bolson tarde month">
+  	bolson / tarde
+  </div>
+  <div class="mix hoyo tarde weekend">
+  	hoyo / tarde
+  </div>
+  <div class="mix puelo noche next">
+  	puelo / noche
+  </div>
+  <div class="mix bolson manana next">
+  	bolson / manana
+  </div>
+  <div class="mix hoyo tarde weekend">
+  	hoyo / tarde
+  </div>
+  <div class="mix paraje manana next">
+  	paraje / manana
+  </div>
+  <div class="mix maiten noche month">
+  	maiten / noche
+  </div>
+  <div class="mix cholila manana weekend">
+  	cholila / manana
+  </div>
+  <div class="mix puelo tarde next">
+  	puelo / tarde
+  </div>
+  
+  <div class="gap"></div>
+  <div class="gap"></div>
+  <div class="gap"></div>
+  <div class="gap"></div>
+</div>
+    
+</div>
+
+
+
+</section>
+

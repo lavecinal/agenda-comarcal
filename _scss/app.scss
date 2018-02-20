@@ -1,0 +1,135 @@
+@import url('https://fonts.googleapis.com/css?family=Amatic+SC:400,700');
+
+@import 'plugins/buttons';
+@import 'plugins/mixitup';
+
+body {
+	margin: 0;
+	padding: 0;
+	font-family: 'Amatic SC', cursive;
+}
+
+header {
+	background: #951556;
+	text-align: center;
+	min-height: 180px;
+	display: flex;
+	flex-direction: column;
+
+	nav {
+		position: fixed;
+		left: 0;
+		right: 0;
+		height: 70px;
+		display: flex;
+		z-index: 1;
+		align-items: center;
+		justify-content: space-between;
+		padding: 0 30px;
+	    background: #951556;
+	}
+
+	.logo {
+
+	}
+
+	.search-icon {
+
+	}
+
+	.main-title {
+		color: #fff;
+		flex: 1;
+		position: relative;
+		align-items: center;
+		display: flex;
+		justify-content: center;
+
+		h1 {
+			margin: 0;
+			font-size: 33px;
+			font-weight: 400;
+			padding: 35px 25px 0;
+		}
+	}
+
+	.arrow {
+		position: absolute;
+		opacity: .25;
+
+		&.arrow-search {
+			right: 30px;
+		    top: 70px;
+		}
+
+		&.arrow-filter {
+			left: 20vw;
+			bottom: 10px;
+		}
+	}
+
+
+
+}
+
+.filters {
+    text-align: center;
+    padding: 0;
+    width: 100%;
+    margin: 0 auto;
+
+    .controls {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 1em;
+    position: relative;
+    max-width: 800px;
+    margin: 0 auto;
+    }
+
+	button {
+		position: absolute;
+		right: 10px;
+		top: 10px;
+		background: #951556;
+		font-weight: 600;
+		color: #fff;
+	}
+
+    fieldset {
+    	border: none;
+    	width: 25%;
+    }
+
+	.dropdown {
+		width: 23%;
+		margin: 2% 1%;
+	}
+
+	h4 {
+		font-size: 35px;
+		display: block;
+		margin: 0;
+		margin-bottom: 5px;
+		text-align: left;
+
+	}
+
+    select {
+    	font-family: 'Amatic SC', cursive;
+    	font-size: 26px;
+    	width: 100%;
+    	font-weight: 700;
+
+    	option {
+    		font-weight: 700;
+    	}
+    }
+
+}
+
+.results {
+	h1 {
+		text-align: center;
+	}
+}
