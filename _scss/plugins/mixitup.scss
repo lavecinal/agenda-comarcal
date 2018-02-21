@@ -120,14 +120,17 @@ button + label{
 
 
 .fail-message{
-display: none;
-text-align: center;
-font-size: 40px;
+    display: none;
+    text-align: center;
+    font-size: 40px;
+    height: 60vh;
+    align-items: center;
+    justify-content: center;
 }
 
 .fail {
   .fail-message{
-  display: block;
+  display: flex;
   }  
 }
 

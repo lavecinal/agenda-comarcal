@@ -1,7 +1,12 @@
 @import url('https://fonts.googleapis.com/css?family=Amatic+SC:400,700');
 
+@import 'plugins/bourbon/bourbon';
+@import 'plugins/neat/neat';
 @import 'plugins/buttons';
 @import 'plugins/mixitup';
+
+$mobile: new-breakpoint(max-width 880px 4);
+
 
 * {
 	outline: 0 none;
@@ -20,6 +25,16 @@ header {
 	display: flex;
 	flex-direction: column;
 
+	&.home {
+		@include media($mobile) {
+			min-height: 70px;
+
+			h1 {
+				display: none;
+			}
+		}
+	}
+
 	nav {
 		position: fixed;
 		left: 0;
@@ -34,7 +49,8 @@ header {
 	}
 
 	.logo {
-
+		position: relative;
+		left: -10px;
 	}
 
 	.search-icon {
@@ -51,7 +67,7 @@ header {
 
 		h1 {
 			margin: 0;
-			font-size: 33px;
+			font-size: 40px;
 			font-weight: 400;
 			padding: 35px 25px 0;
 		}
@@ -67,7 +83,7 @@ header {
 		}
 
 		&.arrow-filter {
-			left: 20vw;
+			left: 30px;
 			bottom: 10px;
 		}
 	}
@@ -103,6 +119,8 @@ header {
 
 }
 
+
+
 .filters {
     text-align: center;
     padding: 0;
@@ -110,18 +128,19 @@ header {
     margin: 0 auto;
 
     .controls {
-    display: flex;
-    flex-wrap: wrap;
-    padding: 1em;
-    position: relative;
-    max-width: 800px;
-    margin: 0 auto;
+    	/* display: flex; */
+    	/* flex-wrap: wrap; */
+    	padding: 1em 0;
+    	position: relative;
+    	/* max-width: 800px; */
+    	/* margin: 0 auto; */
+    	/* align-items: flex-start; */
     }
 
 	button {
 		position: absolute;
 		right: 10px;
-		top: 10px;
+		bottom: 20px;
 		background: #951556;
 		font-weight: 600;
 		color: #fff;
@@ -129,7 +148,10 @@ header {
 
     fieldset {
     	border: none;
-    	width: 25%;
+    	width: 100%;
+    	margin: 0;
+    	padding: 0 3%;
+    	height: 90px;
     }
 
 	.dropdown {
@@ -160,15 +182,92 @@ header {
 }
 
 .results {
+	
+	.container {text-align: left;}
+
 	h1 {
 		text-align: center;
+		min-height: 100px;
+	}
+
+	.mix {
+		width: 24%;
+
+		@include media($mobile) {
+		width: 100%;
+		}
 	}
 }
 
+section {
+
+
+	.filters {
+		width: 250px;
+		background: #f9f9f9;
+		position: fixed;
+		left: 0;
+		top: 180px;
+		bottom: 0;
+
+		@include media($mobile) {
+			position: relative;
+			top: 0;
+			left: 0;
+			width: 100%;
+		}
+
+		fieldset {
+
+
+			@include media($mobile) {
+			width: 33%;
+			padding: 0 1%;
+			}
+		}
+
+		.controls {
+		    height: 100%;
+		    display: flex;
+		    flex-wrap: wrap;
+		    padding: 1em 0 4em 0;
+		    position: relative;
+		}
+	}
+
+	.results {
+		width: 100%;
+		padding-left: 250px;
+
+		@include media($mobile) {
+			width: 100%;
+			padding: 0;
+		}
+	}
+}
+
+
 .cognito {
-    max-width: 800px;
+    max-width: 600px;
     margin: 0 auto;
-    padding-top: 30px;
+    padding: 5px 15px;
+
+    .c-field {
+        padding: 13px 0;
+    }
+
+    .bootstrap-timepicker, .c-editor-date {
+    	width: 90% !important;
+    }
+
+	form + div {
+	  
+		a {
+			position: fixed;
+			bottom: -150px;
+			cursor: none;
+		}
+	}
 }
 
 article.post {
@@ -181,4 +280,49 @@ article.post {
 	    font-size: 50px;
 	}
 
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    margin: 100px auto;
+    top: 120px;
+    left: 0;
+    right: 0;
+    z-index: -1;
+}
+
+.double-bounce1, .double-bounce2 {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: #951556;
+  opacity: 0.6;
+  position: absolute;
+  top: 0;
+  left: 0;
+  
+  -webkit-animation: sk-bounce 2.0s infinite ease-in-out;
+  animation: sk-bounce 2.0s infinite ease-in-out;
+}
+
+.double-bounce2 {
+  -webkit-animation-delay: -1.0s;
+  animation-delay: -1.0s;
+}
+
+@-webkit-keyframes sk-bounce {
+  0%, 100% { -webkit-transform: scale(0.0) }
+  50% { -webkit-transform: scale(1.0) }
+}
+
+@keyframes sk-bounce {
+  0%, 100% { 
+    transform: scale(0.0);
+    -webkit-transform: scale(0.0);
+  } 50% { 
+    transform: scale(1.0);
+    -webkit-transform: scale(1.0);
+  }
 }
