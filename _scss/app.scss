@@ -3,6 +3,10 @@
 @import 'plugins/buttons';
 @import 'plugins/mixitup';
 
+* {
+	outline: 0 none;
+}
+
 body {
 	margin: 0;
 	padding: 0;
@@ -68,7 +72,34 @@ header {
 		}
 	}
 
+	
+	&.post {
+	    min-height: 380px;
 
+		.main-title {
+			flex-direction: column;
+		}
+
+		h1, h2, h3 {
+			margin: 0;
+		}
+
+		h1 {
+			font-size: 50px;
+		}
+
+		h2 {
+			font-size: 45px;
+		}
+
+		h3 {
+			font-size: 40px;
+			font-weight: 700;
+		}
+
+
+
+	}
 
 }
 
@@ -138,4 +169,16 @@ header {
     max-width: 800px;
     margin: 0 auto;
     padding-top: 30px;
+}
+
+article.post {
+
+	 max-width: 800px;
+    margin: 0 auto;
+    padding-top: 30px;
+
+	p {
+	    font-size: 50px;
+	}
+
 }

@@ -5,7 +5,7 @@ layout: default
 <header>
 	<nav>
 		<a class="menu-icon" href="{{site.baseurl}}subir-evento">
-			<img src="{{site.baseurl}}/img/menu-icon.svg" width="50px" alt="">
+			<img src="{{site.baseurl}}/img/megafono.svg" width="50px" alt="">
 		</a>
 		<a class="logo" href="{{site.baseurl}}">
 			<img src="{{site.baseurl}}/img/logo-agenda-comarcal.svg" width="50px" alt="">
@@ -138,20 +138,7 @@ $(function(){
 
 <section>
 
-<div class="items">
-    {% for post in site.posts %} 
-      <div class="item">
-          <a class="header" href="{{site.baseurl}}{{post.url}}">{{post.nombre}}</a>
-          <p class="description">{{post.lugar}}</p>
-          {{post.nombre}}
-          {{post.fecha}}
-          {{post.hora}}
-          {{post.categoria}}
-          {{post.mail}}
-          {{post.lugar}}
-      </div>
-      {% endfor %}
-</div>
+
 	
 <div class="filters">
 	<form class="controls" id="Filters">
@@ -200,39 +187,23 @@ $(function(){
 
 <div class="results">
 <div id="Container" class="container">
-  <div class="fail-message"><span>No hay proximos eventos con estos filtros</span> <a href="">crear evento</a></div>
-  <div class="mix bolson tarde month">
-  	bolson / tarde
-  </div>
-  <div class="mix hoyo tarde weekend">
-  	hoyo / tarde
-  </div>
-  <div class="mix puelo noche next">
-  	puelo / noche
-  </div>
-  <div class="mix bolson manana next">
-  	bolson / manana
-  </div>
-  <div class="mix hoyo tarde weekend">
-  	hoyo / tarde
-  </div>
-  <div class="mix paraje manana next">
-  	paraje / manana
-  </div>
-  <div class="mix maiten noche month">
-  	maiten / noche
-  </div>
-  <div class="mix cholila manana weekend">
-  	cholila / manana
-  </div>
-  <div class="mix puelo tarde next">
-  	puelo / tarde
-  </div>
+  <div class="fail-message"><span>No hay proximos eventos con estos filtros</span> <a href="{{site.baseurl}}subir-evento">crear evento</a></div>
   
-  <div class="gap"></div>
-  <div class="gap"></div>
-  <div class="gap"></div>
-  <div class="gap"></div>
+  {% for post in site.posts %} 
+  <div class="mix {{post.mxt-lugar}} {{post.mxt-horario}} {{post.mxt-cuando}}">
+      <a class="header" href="{{site.baseurl}}{{post.url}}" style="color: #fff;">{{post.nombre}}</a>
+      <p class="description">{{post.lugar}} <br>
+      {{post.fecha}} <br>
+      {{post.hora}} <br>
+      {{post.categoria}} <br>
+      {{post.mail}} <br>
+      </p>
+      
+      
+
+
+  </div>
+  {% endfor %}
 </div>
     
 </div>
