@@ -4,7 +4,7 @@ layout: default
 
 <header>
 	<nav>
-		<a class="menu-icon" href="{{site.baseurl}}">
+		<a class="menu-icon" href="{{site.baseurl}}subir-evento">
 			<img src="{{site.baseurl}}/img/menu-icon.svg" width="50px" alt="">
 		</a>
 		<a class="logo" href="{{site.baseurl}}">
@@ -137,6 +137,21 @@ $(function(){
 </script>
 
 <section>
+
+<div class="items">
+    {% for post in site.posts %} 
+      <div class="item">
+          <a class="header" href="{{site.baseurl}}{{post.url}}">{{post.nombre}}</a>
+          <p class="description">{{post.lugar}}</p>
+          {{post.nombre}}
+          {{post.fecha}}
+          {{post.hora}}
+          {{post.categoria}}
+          {{post.mail}}
+          {{post.lugar}}
+      </div>
+      {% endfor %}
+</div>
 	
 <div class="filters">
 	<form class="controls" id="Filters">
@@ -180,6 +195,8 @@ $(function(){
 	</form>
 
 </div>
+
+
 
 <div class="results">
 <div id="Container" class="container">
