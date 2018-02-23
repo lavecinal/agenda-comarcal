@@ -1,15 +1,16 @@
 ---
 layout: post
 nombre: Convocatoria a talleres
+date-event: 2018-03-05T10:00:00Z
 fecha: 5 de marzo
 hora: 10hs
-categoria: Arte público
+category: Arte público
 mail: dsa@dsa.com
 lugar: Cholila
 web: https://www.facebook.com/events/1127653710705101/
 mxt-lugar: cholila
 mxt-horario: manana
-mxt-cuando: month
+mxt-categoria: publico
 ---
 
 

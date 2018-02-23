@@ -1,15 +1,16 @@
 ---
 layout: post
 nombre: Cuentos y cantos para toda la familia
+date-event: 2018-02-25T22:00:00Z
 fecha: 25 de febrero
 hora: 22hs
-categoria: Teatro
+category: Teatro
 mail: asd@asd.com
 lugar: Paraje Entre Rios
 web: https://www.facebook.com/events/559639137741516/
 mxt-lugar: paraje
 mxt-horario: noche
-mxt-cuando: next
+mxt-categoria: teatro
 ---
 
 

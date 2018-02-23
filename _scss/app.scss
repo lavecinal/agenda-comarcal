@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Amatic+SC:400,700');
 
+
 @import 'plugins/bourbon/bourbon';
 @import 'plugins/neat/neat';
 @import 'plugins/buttons';
@@ -137,7 +138,7 @@ header {
     	/* align-items: flex-start; */
     }
 
-	button {
+	.reset-filter {
 		position: absolute;
 		right: 10px;
 		bottom: 20px;
@@ -160,7 +161,7 @@ header {
 	}
 
 	h4 {
-		font-size: 35px;
+		font-size: 25px;
 		display: block;
 		margin: 0;
 		margin-bottom: 5px;
@@ -183,15 +184,27 @@ header {
 
 .results {
 	
-	.container {text-align: left;}
+	.container {
+		display: flex;
+		flex-wrap: wrap;
+	}
 
 	h1 {
 		text-align: center;
 		min-height: 100px;
+		border-bottom: 1px solid #a5306b;
+		padding: 0 10px 10px 10px;
 	}
 
 	.mix {
-		width: 24%;
+		width: 31%;
+		margin: 1%;
+		padding: 1% 0;
+		min-height: 250px;
+
+		&:hover {
+			
+		}
 
 		@include media($mobile) {
 		width: 100%;
@@ -207,7 +220,7 @@ section {
 		background: #f9f9f9;
 		position: fixed;
 		left: 0;
-		top: 180px;
+	    top: 70px;
 		bottom: 0;
 
 		@include media($mobile) {
@@ -228,10 +241,14 @@ section {
 
 		.controls {
 		    height: 100%;
-		    display: flex;
+		    display: block;
 		    flex-wrap: wrap;
 		    padding: 1em 0 4em 0;
 		    position: relative;
+
+		    @include media($mobile) {
+		    display: flex;
+		    }
 		}
 	}
 
@@ -257,7 +274,7 @@ section {
     }
 
     .bootstrap-timepicker, .c-editor-date {
-    	width: 90% !important;
+    	width: 80% !important;
     }
 
 	form + div {

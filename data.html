@@ -20,8 +20,6 @@ layout: default
 		<img src="{{site.baseurl}}/img/flecha-abajo.svg" class="arrow arrow-filter" width="20px" alt="">
 	</div>
 </header>
-
-<section class="home">
 <div class="filters">
 	<form class="controls" id="Filters">
 	  <!-- We can add an unlimited number of "filter groups" using the following format: -->
@@ -39,7 +37,7 @@ layout: default
 		    </select>
 		  </fieldset>
 		  
-		 <fieldset>
+		  <fieldset>
 		    <h4>Eventos</h4>
 		    <select>
 		      <option value="">todxs</option>
@@ -53,14 +51,13 @@ layout: default
 		    </select>
 		  </fieldset>
 
-
-
 		   <fieldset>
-		    <h4>Entrada</h4>
+		    <h4>Horarios</h4>
 		    <select>
-		      <option value="">cualquier precio</option>
-		      <option value=".precio-true">Gratis</option>
-		      <option value=".precio-false">Pago</option>
+		      <option value="">a toda hora</option>
+		      <option value=".manana">mañana</option>
+		      <option value=".tarde">tarde</option>
+		      <option value=".noche">noche</option>
 		    </select>
 		  </fieldset>
 		  
@@ -68,42 +65,23 @@ layout: default
 	</form>
 
 </div>
-
-<div class="results">
-<div id="Container" class="container">
-  <div class="fail-message"><span>No hay proximos eventos con estos filtros</span> <br> <a href="{{site.baseurl}}subir-evento">crear evento</a></div>
-  
-{% for agenda in site.data.agenda %}
-  <div class="mix lugar-{{ agenda.localidad_value | to_integer }} categoria-{{ agenda.categoria_value | to_integer}} precio-{{ agenda.evento-gratis }}" data-order="{{ agenda.evento-order-date }}">
-	<h2 style="margin: 0;">{{ agenda.evento-nombre }}</h2>
-	{{ agenda.categoria }} en {{ agenda.localidad }} <br>
-	{% if agenda.nombre-lugar %}
-		{{ agenda.nombre-lugar }} <br>
-	{% endif %}
-	{% if agenda.evento-gratis %}
-		entrada gratuita <br>
-	{% else %}
-		Valor de la entrada
-		${{ agenda.evento-precio }} <br>
-	{% endif %}
-	{{ agenda.evento-fecha }} <br>
-	a las {{ agenda.evento-hora}} <br>
-	{% if agenda.evento-web %}
-	<a style="color: #fff;" href="{{ agenda.evento-web }}" target="_blank">Link al evento</a> 
+<div id="Container" class="container" style="font-family: 'Tahoma' ">
+{% for agenda in site.data.agenda reversed %}
+  <div class="mix lugar-{{ agenda.Lugar_Value | to_integer }} categoria-{{ agenda.Categoria_Value | to_integer}}">
+	{{ agenda.Nombre }} <br>
+	{{ agenda.Lugar }} <br>
+	{{ agenda.Categoria }} <br>
+	{{ agenda.Mail }} <br>
+	{{ agenda.Gratis }} <br>
+	${{ agenda.Precio }} <br>
+	{{ agenda.Fecha }} <br>
+	{{ agenda.Hora }} <br>
+	{% if agenda.Web != '' %}
+	<a href="{{ agenda.Web }}" target="_blank">Link al evento</a> 
 	{% else %}
 	
 	{% endif %}
-
   </div>
 {% endfor %}
-</div>
-
-
-</div>
-
-
-
 {% include mixit-up.html %}
-
-</section>
-
+</div>

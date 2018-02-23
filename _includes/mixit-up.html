@@ -11,6 +11,7 @@ var dropdownFilter = {
   outputArray: [],
   outputString: '',
   
+  
   // The "init" method will run on document ready and cache any jQuery objects we will need.
   
   init: function(){
@@ -106,6 +107,11 @@ $(function(){
   // Instantiate MixItUp
       
   $('#Container').mixItUp({
+    animation: {
+      animateChangeLayout: true, // Animate the positions of targets as the layout changes
+      animateResizeTargets: true, // Animate the width/height of targets as the layout changes
+      effects: 'fade rotateX(-40deg) translateZ(-100px)'
+    },
     controls: {
       enable: false // we won't be needing these
     }
