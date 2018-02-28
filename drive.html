@@ -1,0 +1,122 @@
+---
+layout: default
+---
+
+<header class="home" style="min-height: 70px">
+  <nav>
+    
+    <a class="logo" href="{{site.baseurl}}">
+      <img src="{{site.baseurl}}/img/logo-agenda-comarcal.svg" width="50px" alt="">
+    </a>
+    <a class="menu-icon" href="{{site.baseurl}}subir-evento">
+      <img src="{{site.baseurl}}/img/megafono.svg" width="50px" alt="">
+    </a>
+  </nav>
+  <div class="main-title" style="display: none;">
+    <img src="{{site.baseurl}}/img/flecha-arriba.svg" class="arrow arrow-search" width="30px" alt="">
+    <h1>usa los filtros o busca con palabras claves</h1>
+    <img src="{{site.baseurl}}/img/flecha-abajo.svg" class="arrow arrow-filter" width="20px" alt="">
+  </div>
+</header>
+
+<script type="text/javascript">
+    // Reset the cookie manually
+    //Cookies.expire('token');
+    var $oAuthToken = getUrlVar('639e5a31c522ceabe5562eefe9fced2f2b627bd1');
+    var $yaml_store = "";
+    // When you fork, make sure ad add your org / user and repo name to _config.yml
+    var $org = 'lavecinal';
+    var $repo = 'agenda-comarcal';
+    if($oAuthToken !='')
+      {
+      // Setting a cookie value
+      Cookies.set('token', $oAuthToken);
+      // Set with expiration
+      // Cookies.set('token', $oAuthToken, { expires: '01/01/2017' });
+      }
+    // Grab the token from cookie
+    $oAuthToken = Cookies.get('token');
+    key = "1fYk-ATis8kyL4e546LwDQpQu_ytE_D4zUMDfY29tHMg";
+    $(document).ready( function() {
+      Tabletop.init( { key: key,
+                       callback: showInfo,
+                       wanted: [ "agenda-comarcal" ],
+                       debug: true } )
+    })
+    function showInfo(data, tabletop) {
+      $products = new Array();
+      $("#table_info").text("We found the tables " + tabletop.model_names.join(", "));
+      $.each( tabletop.sheets(), function(i, sheet) {
+        $("#table_info").append("<p>" + sheet.name + " has " + sheet.column_names.join(", ") + "</p>");
+      });
+      $product = tabletop.sheets("agenda-comarcal").all();
+      $count = 0;
+      $total_count = $product.length;
+      $.each( tabletop.sheets("agenda-comarcal").all(), function(i, service) {
+          $id = service['id'];
+          $localidad = service['localidad'];
+          $localidad_value = service['localidad_value'];
+          $categoria = service['categoria'];
+          $categoria_value = service['categoria_value'];
+          $nombre_lugar = service['nombre-lugar'];
+          $evento_nombre = service['evento-nombre'];
+          $evento_mail = service['evento-mail'];
+          $evento_gratis = service['evento-gratis'];
+          $evento_precio = service['evento-precio'];
+          $evento_fecha = service['evento-fecha'];
+          $evento_hora = service['evento-hora'];
+          $evento_web = service['evento-web'];
+          $evento_order_date = service['evento-order-date'];
+
+          $p = {};
+          $p['id'] = $id;
+          $p['localidad'] = $localidad;
+          $p['localidad_value'] = $localidad_value;
+          $p['categoria'] = $categoria;
+          $p['categoria_value'] = $categoria_value;
+          $p['nombre-lugar'] = $nombre_lugar;
+          $p['evento-nombre'] = $evento_nombre;
+          $p['evento-mail'] = $evento_mail;
+          $p['evento-gratis'] = $evento_gratis;
+          $p['evento-precio'] = $evento_precio;
+          $p['evento-fecha'] = $evento_fecha;
+          $p['evento-hora'] = $evento_hora;
+          $p['evento-web'] = $evento_web;
+          $p['evento-order-date'] = $evento_order_date;
+
+          $products.push($p);
+          //beautify(jsonStr);
+          $count++;
+          if($count==$total_count)
+            {
+            $products_json = JSON.stringify($products);
+            $products_json = JSON.stringify(JSON.parse($products_json),null,2);
+            $yaml_dump = jsyaml.dump($products);
+            document.getElementById('source').value = $yaml_dump;
+            // Grab the token from cookie
+            $oAuthToken = Cookies.get('token');
+            var github = new Github({token: $oAuthToken,auth: "oauth"});
+            var repo = github.getRepo($org,$repo);
+            repo.getTree('gh-pages?recursive=true', function(err, tree) {
+              $.each(tree, function(treeKey, treeValue) {
+                $writepath = '_data/store.yaml';
+                $path = treeValue['path'];
+                $sha = treeValue['sha'];
+                //console.log($path + ' == ' + $writepath);
+                if($path==$writepath)
+                  {
+                  repo.writemanual('gh-pages',$writepath, $yaml_dump, 'Save', $sha, function(err) { });
+                  //console.log("writing " + $writepath);
+                  //alert("saved " + $writepath);
+                  }
+                });
+              });
+            }
+      })
+    }
+</script>
+
+<section class="home">
+<textarea cols="10" rows="8" id="source" style="border: 1px solid #000; width: 100%; height: 350px;"></textarea>
+
+</section>

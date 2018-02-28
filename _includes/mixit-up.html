@@ -1,120 +1,77 @@
 <script>
-	// To keep our code clean and modular, all custom functionality will be contained inside a single object literal called "dropdownFilter".
+          var container = document.querySelector('[data-ref="container"]');
+          var inputSearch = document.querySelector('[data-ref="input-search"]');
+          var keyupTimeout;
 
-var dropdownFilter = {
-  
-  // Declare any variables we will need as properties of the object
-  
-  $filters: null,
-  $reset: null,
-  groups: [],
-  outputArray: [],
-  outputString: '',
-  
-  
-  // The "init" method will run on document ready and cache any jQuery objects we will need.
-  
-  init: function(){
-    var self = this; // As a best practice, in each method we will asign "this" to the variable "self" so that it remains scope-agnostic. We will use it to refer to the parent "dropdownFilter" object so that we can share methods and properties between all parts of the object.
-    
-    self.$filters = $('#Filters');
-    self.$reset = $('#Reset');
-    self.$container = $('#Container');
-    
-    self.$filters.find('fieldset').each(function(){
-      self.groups.push({
-        $dropdown: $(this).find('select'),
-        active: ''
-      });
-    });
-    
-    self.bindHandlers();
-  },
-  
-  // The "bindHandlers" method will listen for whenever a select is changed. 
-  
-  bindHandlers: function(){
-    var self = this;
-    
-    // Handle select change
-    
-    self.$filters.on('change', 'select', function(e){
-      e.preventDefault();
-      
-      self.parseFilters();
-    });
-    
-    // Handle reset click
-    
-    self.$reset.on('click', function(e){
-      e.preventDefault();
-      
-      self.$filters.find('select').val('');
-      
-      self.parseFilters();
-    });
-  },
-  
-  // The parseFilters method pulls the value of each active select option
-  
-  parseFilters: function(){
-    var self = this;
- 
-    // loop through each filter group and grap the value from each one.
-    
-    for(var i = 0, group; group = self.groups[i]; i++){
-      group.active = group.$dropdown.val();
-    }
-    
-    self.concatenate();
-  },
-  
-  // The "concatenate" method will crawl through each group, concatenating filters as desired:
-  
-  concatenate: function(){
-    var self = this;
-    
-    self.outputString = ''; // Reset output string
-    
-    for(var i = 0, group; group = self.groups[i]; i++){
-      self.outputString += group.active;
-    }
-    
-    // If the output string is empty, show all rather than none:
-    
-    !self.outputString.length && (self.outputString = 'all'); 
-    
-    //console.log(self.outputString); 
-    
-    // ^ we can check the console here to take a look at the filter string that is produced
-    
-    // Send the output string to MixItUp via the 'filter' method:
-    
-	  if(self.$container.mixItUp('isLoaded')){
-    	self.$container.mixItUp('filter', self.outputString);
-	  }
-  }
-};
-  
-// On document ready, initialise our code.
+          
 
-$(function(){
-      
-  // Initialize dropdownFilter code
-      
-  dropdownFilter.init();
-      
-  // Instantiate MixItUp
-      
-  $('#Container').mixItUp({
-    animation: {
-      animateChangeLayout: true, // Animate the positions of targets as the layout changes
-      animateResizeTargets: true, // Animate the width/height of targets as the layout changes
-      effects: 'fade rotateX(-40deg) translateZ(-100px)'
-    },
-    controls: {
-      enable: false // we won't be needing these
-    }
-  });    
-});
-</script>
+          var mixer = mixitup(container, {
+              animation: {
+                  duration: 1000,
+                  animateResizeTargets: false,
+                  easing: 'cubic-bezier(0.645, 0.045, 0.355, 1)'
+              },
+              load: {
+                  sort: 'published-date:asc'
+              },
+              callbacks: {
+                  onMixClick: function() {
+                      // Reset the search if a filter is clicked
+
+                      if (this.matches('[data-filter]')) {
+                          inputSearch.value = '';
+                      }
+                  }
+              }
+          });
+
+
+
+          // Set up a handler to listen for "keyup" events from the search input
+
+          inputSearch.addEventListener('keyup', function() {
+              var searchValue;
+
+              if (inputSearch.value.length < 3) {
+                  // If the input value is less than 3 characters, don't send
+
+                  searchValue = '';
+              } else {
+                  searchValue = inputSearch.value.toLowerCase().trim();
+              }
+
+              // Very basic throttling to prevent mixer thrashing. Only search
+              // once 350ms has passed since the last keyup event
+
+              clearTimeout(keyupTimeout);
+
+              keyupTimeout = setTimeout(function() {
+                  filterByString(searchValue);
+              }, 350);
+          });
+
+          /**
+           * Filters the mixer using a provided search string, which is matched against
+           * the contents of each target's "class" attribute. Any custom data-attribute(s)
+           * could also be used.
+           *
+           * @param  {string} searchValue
+           * @return {void}
+           */
+
+
+
+          function filterByString(searchValue) {
+              if (searchValue) {
+                  // Use an attribute wildcard selector to check for matches
+
+                  mixer.filter('[class*="' + searchValue + '"]');
+              } else {
+                  // If no searchValue, treat as filter('all')
+
+                  mixer.filter('all');
+              }
+          }
+      </script>
+
+

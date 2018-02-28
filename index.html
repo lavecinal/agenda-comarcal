@@ -4,14 +4,12 @@ layout: default
 
 <header class="home" style="min-height: 70px">
 	<nav>
-		<a class="menu-icon" href="{{site.baseurl}}subir-evento">
-			<img src="{{site.baseurl}}/img/megafono.svg" width="50px" alt="">
-		</a>
+		
 		<a class="logo" href="{{site.baseurl}}">
 			<img src="{{site.baseurl}}/img/logo-agenda-comarcal.svg" width="50px" alt="">
 		</a>
-		<a href="" class="search-icon">
-			<img src="{{site.baseurl}}/img/search-icon.svg" class="search-icon" width="30px" alt="">
+		<a class="menu-icon" href="{{site.baseurl}}subir-evento">
+			<img src="{{site.baseurl}}/img/megafono.svg" width="50px" alt="">
 		</a>
 	</nav>
 	<div class="main-title" style="display: none;">
@@ -23,58 +21,43 @@ layout: default
 
 <section class="home">
 <div class="filters">
-	<form class="controls" id="Filters">
-	  <!-- We can add an unlimited number of "filter groups" using the following format: -->
-		   <fieldset>
-		    <h4>Lugares</h4>
-		    <select>
-		      <option value="">todes</option>
-		      <option value=".lugar-1">el bolson</option>
-		      <option value=".lugar-2">el hoyo</option>
-		      <option value=".lugar-3">El Maiten</option>
-		      <option value=".lugar-4">Cholila</option>
-		      <option value=".lugar-5">lago puelo</option>
-		      <option value=".lugar-6">las golondrinas</option>
-		      <option value=".lugar-7">paraje entre rios</option>
-		    </select>
-		  </fieldset>
-		  
-		 <fieldset>
-		    <h4>Eventos</h4>
-		    <select>
-		      <option value="">todxs</option>
-		      <option value=".categoria-1">chicxs</option>
-		      <option value=".categoria-2">danza</option>
-		      <option value=".categoria-3">Arte público</option>
-		      <option value=".categoria-4">teatro</option>
-		      <option value=".categoria-5">literatura</option>
-		      <option value=".categoria-6">musica</option>
-		      <option value=".categoria-7">Festivales</option>
-		    </select>
-		  </fieldset>
+    <div class="controls">
+		
+        <input type="text" class="input" data-ref="input-search" placeholder="busca por lugar, nombre, mes" style="
+            display: block;width: 100%;padding: 12px;margin: 0;"/>
+		<div class = "tabinator">
+		  <input type = "radio" id = "tab1" name = "tabs" checked>
+		  <label for = "tab1">Lugar</label>
+		  <input type = "radio" id = "tab2" name = "tabs">
+		  <label for = "tab2">Categoria</label>
+		  <div id = "content1">
+			<button type="button" class="control ui button green" data-filter=".lugar-1">bolson</button>
+			<button type="button" class="control ui button green" data-filter=".lugar-2">hoyo</button>
+			<button type="button" class="control ui button green" data-filter=".lugar-3">maiten</button>
+			<button type="button" class="control ui button green" data-filter=".lugar-4">cholila</button> <br>
+			<button type="button" class="control ui button green" data-sort="published-date:asc">ene - dic</button>
+			<button type="button" class="control ui button green" data-sort="published-date:desc">dic - ene</button>
+		  </div>
+		  <div id = "content2">
+			<button type="button" class="control ui button green" data-filter=".categoria-1">chicxs</button>
+			<button type="button" class="control ui button green" data-filter=".categoria-2">danza</button>
+			<button type="button" class="control ui button green" data-filter=".categoria-3">arte publico</button> <br>
+			<button type="button" class="control ui button green" data-sort="published-date:asc">ene - dic</button>
+			<button type="button" class="control ui button green" data-sort="published-date:desc">dic - ene</button>
+		  </div>
+		</div>
+		<button type="button" class="control  ui button green" data-filter="all">Limpiar filtros</button>
 
-
-
-		   <fieldset>
-		    <h4>Entrada</h4>
-		    <select>
-		      <option value="">cualquier precio</option>
-		      <option value=".precio-true">Gratis</option>
-		      <option value=".precio-false">Pago</option>
-		    </select>
-		  </fieldset>
-		  
-		  <button id="Reset">limpiar filtros</button>
-	</form>
-
+	</div>
 </div>
 
 <div class="results">
-<div id="Container" class="container">
+<b style="font-size: 20px;">Total de eventos {{ site.data.agenda | size }}</b>
+<div class="container" data-ref="container">
   <div class="fail-message"><span>No hay proximos eventos con estos filtros</span> <br> <a href="{{site.baseurl}}subir-evento">crear evento</a></div>
   
 {% for agenda in site.data.agenda %}
-  <div class="mix lugar-{{ agenda.localidad_value | to_integer }} categoria-{{ agenda.categoria_value | to_integer}} precio-{{ agenda.evento-gratis }}" data-order="{{ agenda.evento-order-date }}">
+  <div class="mix lugar-{{ agenda.localidad_value | to_integer }} categoria-{{ agenda.categoria_value | to_integer}} precio-{{ agenda.evento-gratis }} {{ agenda.evento-nombre | slugify }} {{ agenda.evento-fecha | slugify }} {{ agenda.localidad | slugify }} publicado-{{ agenda.publicado }} dia-{{ agenda.evento-order-date }}" data-published-date="{{ agenda.evento-order-date }}" >
 	<h2 style="margin: 0;">{{ agenda.evento-nombre }}</h2>
 	{{ agenda.categoria }} en {{ agenda.localidad }} <br>
 	{% if agenda.nombre-lugar %}
